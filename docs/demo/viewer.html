@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>minilang 查看器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <a class="back" href="index.html">← 返回</a>
+    <span id="title" class="title"></span>
+    <div class="controls">
+      <button id="prev" title="上一步（←）">◀</button>
+      <button id="play" title="播放/暂停（空格）">▶</button>
+      <button id="next" title="下一步（→）">▶|</button>
+      <span id="step-label" class="step-label">0 / 0</span>
+    </div>
+  </header>
+  <main class="viewer">
+    <section class="panel" id="panel-source">
+      <h2>源码</h2>
+      <div id="source" class="source"></div>
+    </section>
+    <section class="panel" id="panel-tokens">
+      <h2>Token</h2>
+      <div id="tokens" class="tokens"></div>
+    </section>
+    <section class="panel" id="panel-ast">
+      <h2>AST</h2>
+      <div id="ast" class="ast"></div>
+    </section>
+    <section class="panel" id="panel-state">
+      <h2>执行状态</h2>
+      <div id="state" class="state"></div>
+      <h3>输出</h3>
+      <pre id="output" class="output"></pre>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
