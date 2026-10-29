@@ -1,69 +1,72 @@
+English | [中文](README.zh-CN.md)
+
 # minilang
 
-一个极小语言实现，包含词法分析、递归下降语法分析、AST 打印、树遍历解释器、REPL 和测试。零第三方依赖，Python 3.7+ 即可运行。
+A minimal language implementation. Includes lexing, recursive-descent parsing, AST printing, a tree-walking interpreter, REPL, and tests. Zero third-party dependencies; runs on Python 3.7+.
 
-## 语言特性
+## Language Features
 
-- 整数、布尔字面量
-- 变量声明与赋值（`let x = 1;`）
-- 算术、比较、逻辑运算（带优先级）
-- `if / else`、`while`
-- 函数定义与调用（支持递归和闭包）
-- 块级作用域
+- Integer and boolean literals
+- Variable declaration and assignment (`let x = 1;`)
+- Arithmetic, comparison, and logical operators with precedence
+- `if / else`, `while`
+- Function definition and calls (supports recursion and closures)
+- Block scoping
 - `return`
-- 内置函数 `print`
-- `//` 行注释
+- Built-in `print`
+- `//` line comments
 
-## 运行
+## Running
 
 ```bash
-# 运行示例
+# Run an example
 python main.py examples/fib.mini
 
-# 打印 AST（不执行）
+# Print the AST without executing
 python main.py examples/fib.mini --ast
 
-# 进入 REPL
+# Start the REPL
 python main.py
 
-# 运行测试
+# Run tests
 python -m unittest discover -s tests -v
 ```
 
-也支持 `python -m minilang`，行为与 `python main.py` 一致。
+`python -m minilang` also works and behaves identically to `python main.py`.
 
-**REPL 注意事项**：逐行读取，每条语句必须写在一行内。多行结构（如跨行的 `if` 块）请写成 `.mini` 文件后执行。
+**REPL note**: input is read line by line, so each statement must fit on one line. For multi-line constructs (such as an `if` block spanning several lines), write a `.mini` file and run it instead.
 
-## 项目结构
+## Project Structure
 
 ```
 minilang/
 ├── README.md
+├── README.en.md
 ├── docs/
-│   └── grammar.ebnf          # 权威文法规格
-├── main.py                   # 入口，调用 mini_lang.main
+│   └── grammar.ebnf          # authoritative grammar spec
+├── main.py                   # entry point, delegates to minilang.main
 ├── examples/
-│   ├── fib.mini              # 递归与 while 示例
-│   └── closure.mini          # 闭包示例
+│   ├── fib.mini              # recursion and while example
+│   └── closure.mini          # closure example
 ├── minilang/
 │   ├── __init__.py
-│   ├── __main__.py           # 支持 python -m mini_lang
-│   ├── tokens.py             # Token 类型与关键字表
-│   ├── lexer.py              # 词法分析器
-│   ├── ast_nodes.py          # AST 节点（dataclass）
-│   ├── parser.py             # 递归下降解析器
-│   ├── ast_printer.py        # AST 调试打印器（--ast 用）
-│   ├── environment.py        # 链式作用域环境
-│   ├── interpreter.py        # 树遍历解释器
-│   └── main.py               # 命令行入口与 REPL
+│   ├── __main__.py           # supports python -m minilang
+│   ├── tokens.py             # token types and keyword table
+│   ├── lexer.py              # lexer
+│   ├── ast_nodes.py          # AST nodes (dataclasses)
+│   ├── parser.py             # recursive-descent parser
+│   ├── ast_printer.py        # AST debug printer (used by --ast)
+│   ├── environment.py        # chained scope environment
+│   ├── interpreter.py        # tree-walking interpreter
+│   └── main.py               # CLI entry and REPL
 └── tests/
-    ├── test_mini.py          # 词法 / 解释器功能测试
-    └── test_grammar.py       # 逐条文法规则的合法 / 非法用例
+    ├── test_mini.py          # lexer / interpreter behavior tests
+    └── test_grammar.py       # per-production valid / invalid cases
 ```
 
-## 语法参考（EBNF）
+## Grammar (EBNF)
 
-权威版本见 `docs/grammar.ebnf`。下面这份与之一致，方便快速查阅。
+The authoritative version lives in `docs/grammar.ebnf`. The copy below matches it and is provided for quick reference.
 
 ```ebnf
 program     → declaration* EOF
@@ -110,63 +113,63 @@ primary     → NUMBER
             | "(" expression ")"
 ```
 
-### 文法符号说明
+### Grammar Symbols
 
-| 符号 | 含义 |
+| Symbol | Meaning |
 |---|---|
-| `→` | 定义为 |
-| `*` | 重复 0 次或多次 |
-| `?` | 可选，出现 0 或 1 次 |
-| `\|` | 二选一 |
-| `"..."` | 字面量终结符 |
+| `→` | defined as |
+| `*` | zero or more repetitions |
+| `?` | optional, zero or one occurrence |
+| `\|` | alternation |
+| `"..."` | literal terminal |
 
-### 词法约定
+### Lexical Conventions
 
-- `NUMBER`：十进制整数字面量，如 `42`、`0`。
-- `IDENT`：标识符，`[a-zA-Z_][a-zA-Z0-9_]*`，不能是关键字。
-- 关键字：`let`、`fun`、`if`、`else`、`while`、`return`、`true`、`false`。
-- 运算符与标点：`+ - * / ! < > == != = ; , ( ) { }`。
-- `//` 到行尾为注释，词法阶段丢弃。
-- `print` **不是关键字**，而是解释器启动时注入全局作用域的内置函数，因此可被用户变量遮蔽。
+- `NUMBER`: decimal integer literal, such as `42` or `0`.
+- `IDENT`: identifier matching `[a-zA-Z_][a-zA-Z0-9_]*`, excluding keywords.
+- Keywords: `let`, `fun`, `if`, `else`, `while`, `return`, `true`, `false`.
+- Operators and punctuation: `+ - * / ! < > == != = ; , ( ) { }`.
+- `//` starts a comment that runs to end of line and is discarded during lexing.
+- `print` is **not** a keyword. It is a built-in function injected into the global scope at interpreter startup, so user variables can shadow it.
 
-## 文法与解析器函数对应表
+## Grammar-to-Parser Mapping
 
-| 文法规则 | 解析器函数 | 关键实现 |
+| Grammar rule | Parser method | Key implementation detail |
 |---|---|---|
-| `program` | `Parser.parse()` | 循环 `declaration()` 直到 EOF，错误时 `synchronize()` |
-| `declaration` | `Parser.declaration()` | `FUN` → `fun_declaration`，`LET` → `var_declaration`，否则 `statement` |
-| `funDecl` | `Parser.fun_declaration()` | 吃 `fun`、`IDENT`、`(`、参数、`)`、`block` |
-| `varDecl` | `Parser.var_declaration()` | 吃 `let`、`IDENT`，可选 `=` + 表达式，吃 `;` |
-| `params` | `Parser.fun_declaration()` 内循环 | `IDENT ("," IDENT)*` |
-| `statement` | `Parser.statement()` | 按 Token 分派到 `if` / `while` / `return` / `block` / 表达式语句 |
-| `block` | `Parser.block()` | 吃 `{`，循环 `declaration()` 直到 `}` |
-| `ifStmt` | `Parser.if_statement()` | 可选 `else` 分支 |
-| `whileStmt` | `Parser.while_statement()` | 循环体是单条 `statement` |
-| `returnStmt` | `Parser.return_statement()` | 表达式可选 |
-| `expression` | `Parser.expression()` | 直接转 `assignment()` |
-| `assignment` | `Parser.assignment()` | 递归实现右结合；左侧必须是 `Var` |
-| `equality` | `Parser.equality()` | `while` 循环实现左结合 |
-| `comparison` | `Parser.comparison()` | 同上 |
-| `term` | `Parser.term()` | 同上 |
-| `factor` | `Parser.factor()` | 同上 |
-| `unary` | `Parser.unary()` | 递归处理 `!` / `-` |
-| `call` | `Parser.call()` | `while` 循环支持连续调用 `f(1)(2)` |
-| `primary` | `Parser.primary()` | 字面量 / 变量 / 括号表达式 |
+| `program` | `Parser.parse()` | loops `declaration()` until EOF, calls `synchronize()` on error |
+| `declaration` | `Parser.declaration()` | `FUN` → `fun_declaration`, `LET` → `var_declaration`, otherwise `statement` |
+| `funDecl` | `Parser.fun_declaration()` | consumes `fun`, `IDENT`, `(`, params, `)`, `block` |
+| `varDecl` | `Parser.var_declaration()` | consumes `let`, `IDENT`, optional `=` + expression, `;` |
+| `params` | loop inside `Parser.fun_declaration()` | `IDENT ("," IDENT)*` |
+| `statement` | `Parser.statement()` | dispatches on token to `if` / `while` / `return` / `block` / expression statement |
+| `block` | `Parser.block()` | consumes `{`, loops `declaration()` until `}` |
+| `ifStmt` | `Parser.if_statement()` | optional `else` branch |
+| `whileStmt` | `Parser.while_statement()` | loop body is a single `statement` |
+| `returnStmt` | `Parser.return_statement()` | value expression is optional |
+| `expression` | `Parser.expression()` | forwards to `assignment()` |
+| `assignment` | `Parser.assignment()` | right-associative via recursion; left side must be a `Var` |
+| `equality` | `Parser.equality()` | left-associative via `while` loop |
+| `comparison` | `Parser.comparison()` | same |
+| `term` | `Parser.term()` | same |
+| `factor` | `Parser.factor()` | same |
+| `unary` | `Parser.unary()` | recursive handling of `!` / `-` |
+| `call` | `Parser.call()` | `while` loop supports chained calls like `f(1)(2)` |
+| `primary` | `Parser.primary()` | literals / variables / parenthesized expressions |
 
-## 语义要点
+## Semantics
 
-- **作用域**：`let` 和 `fun` 在所在块内声明，块退出后不可见。函数体是新作用域，参数绑定在其中。
-- **闭包**：函数对象保存定义时的环境引用，调用时以该环境为父环境新建作用域，因此能访问定义处的变量。
-- **递归**：函数名在定义时绑定到当前环境，函数体内可引用自身。
-- **`return`**：用 `ReturnSignal` 异常实现；在函数外出现 `return` 会转为运行时错误。
-- **真值判断**：只有 `false` 和 `nil`（无返回值）为假，其余（包括 `0`）为真。
-- **类型**：整数运算要求操作数严格为 `int`（`bool` 不参与算术）；`==` / `!=` 可比较任意值。
-- **除法**：整数除法，向负无穷取整；除数为 `0` 时报运行时错误。
-- **`print`**：接受一个参数，输出后换行；输出 `nil` 表示无返回值。
+- **Scope**: `let` and `fun` declare names in the enclosing block; they become invisible once the block exits. A function body is a new scope, with parameters bound inside it.
+- **Closures**: a function object stores a reference to its defining environment. On call, a new scope is created with that environment as parent, so the body can access variables from the definition site.
+- **Recursion**: a function name is bound at definition time, so the body can refer to itself.
+- **`return`**: implemented with a `ReturnSignal` exception. A `return` outside any function is converted into a runtime error.
+- **Truthiness**: only `false` and `nil` (the absence of a return value) are falsy; everything else, including `0`, is truthy.
+- **Types**: integer arithmetic requires operands to be strictly `int` (`bool` does not participate in arithmetic); `==` / `!=` compare values of any type.
+- **Division**: integer division rounding toward negative infinity; division by zero raises a runtime error.
+- **`print`**: takes one argument, prints it followed by a newline; prints `nil` when the argument is the absence of a value.
 
-## 示例
+## Examples
 
-### 递归与循环：`examples/fib.mini`
+### Recursion and loops: `examples/fib.mini`
 
 ```
 fun fib(n) {
@@ -181,7 +184,7 @@ while (i < 10) {
 }
 ```
 
-输出：
+Output:
 
 ```
 0
@@ -196,7 +199,7 @@ while (i < 10) {
 34
 ```
 
-### 闭包：`examples/closure.mini`
+### Closures: `examples/closure.mini`
 
 ```
 fun makeCounter() {
@@ -214,7 +217,7 @@ print(c());
 print(c());
 ```
 
-输出：
+Output:
 
 ```
 1
@@ -222,27 +225,27 @@ print(c());
 3
 ```
 
-## 错误处理与退出码
+## Error Handling and Exit Codes
 
-- **词法错误**：非法字符按行号收集，全部报告后不再进入解析。
-- **语法错误**：解析器在语句边界 `synchronize()`，一次运行可报告多个错误。
-- **运行时错误**：未定义变量、赋值给未定义变量、除零、调用非函数、参数个数不匹配、函数外 `return` 等，均以 `运行时错误: ...` 输出到 stderr。
-- **退出码**：成功为 `0`；任一阶段出错或文件读取失败为 `1`。REPL 不设置退出码，Ctrl-D 视为正常结束。
+- **Lexical errors**: illegal characters are collected with line numbers and reported together; parsing does not start if any are present.
+- **Syntax errors**: the parser synchronizes at statement boundaries, so a single run can report multiple errors.
+- **Runtime errors**: undefined variables, assignment to an undefined variable, division by zero, calling a non-function, argument count mismatch, and `return` outside a function are all printed to stderr as `运行时错误: ...`.
+- **Exit codes**: `0` on success; `1` if any stage fails or the file cannot be read. The REPL does not set an exit code; Ctrl-D is treated as a normal exit.
 
-## 测试
+## Tests
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-- `tests/test_mini.py`：功能级测试。词法覆盖最长匹配、关键字、注释；解释器覆盖算术、变量、控制流、递归、闭包、块作用域、运行时错误。
-- `tests/test_grammar.py`：文法级测试。按 EBNF 产生式组织，每条规则至少一个合法用例和一个非法用例，保证文法与解析器同步。
+- `tests/test_mini.py`: behavior-level tests. Lexer coverage includes longest match, keywords, and comments; interpreter coverage includes arithmetic, variables, control flow, recursion, closures, block scoping, and runtime errors.
+- `tests/test_grammar.py`: grammar-level tests. Organized by EBNF production; each rule has at least one valid and one invalid case, keeping the grammar and parser in sync.
 
-两者分工：`test_mini.py` 问"这个功能对不对"，`test_grammar.py` 问"这条文法规则有没有被正确实现"。
+The split: `test_mini.py` asks "does this feature work?", `test_grammar.py` asks "is this grammar rule correctly implemented?".
 
-## 设计约定
+## Design Notes
 
-- 文法只描述语法结构；词法约定（关键字、标识符规则、注释）在 `tokens.py` 与 `lexer.py` 中实现。
-- `print` 通过全局作用域注入而非关键字，使文法更统一，代价是它可被用户变量遮蔽。
-- EBNF 是设计期规格与测试期依据，不参与运行时；解析器是手写递归下降，文法结构已硬编码在函数调用关系中。
-- 新增语言特性时，顺序固定为：先改 `docs/grammar.ebnf`，再补 `tests/test_grammar.py`，最后改 `parser.py` 和 `interpreter.py`。
+- The grammar describes syntax only; lexical conventions (keywords, identifier rules, comments) live in `tokens.py` and `lexer.py`.
+- `print` is injected through the global scope rather than being a keyword. This keeps the grammar more uniform, at the cost of allowing user variables to shadow it.
+- The EBNF is a design-time spec and test-time reference; it does not participate at runtime. The parser is hand-written recursive descent, so the grammar structure is hard-coded in the function call graph.
+- When adding a language feature, the order is fixed: update `docs/grammar.ebnf` first, then add cases to `tests/test_grammar.py`, then change `parser.py` and `interpreter.py`.
