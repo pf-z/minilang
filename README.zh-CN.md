@@ -1,3 +1,10 @@
+中文 | [English](README.md)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue.svg)](https://www.python.org/)
+[![Tests](https://img.shields.io/badge/tests-unittest-green.svg)](tests/)
+[![Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#)
+
 # minilang
 
 一个极小语言实现，包含词法分析、递归下降语法分析、AST 打印、树遍历解释器、REPL 和测试。零第三方依赖，Python 3.7+ 即可运行。

@@ -1,5 +1,10 @@
 English | [中文](README.zh-CN.md)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue.svg)](https://www.python.org/)
+[![Tests](https://img.shields.io/badge/tests-unittest-green.svg)](tests/)
+[![Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg)](#)
+
 # minilang
 
 A minimal language implementation. Includes lexing, recursive-descent parsing, AST printing, a tree-walking interpreter, REPL, and tests. Zero third-party dependencies; runs on Python 3.7+.
