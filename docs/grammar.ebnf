@@ -1,0 +1,63 @@
+(*
+ * minilang 权威文法规格
+ *
+ * 本文件是解析器和 tests/test_grammar.py 的唯一权威依据。
+ * 修改语言语法时，先改本文件，再补测试，最后改 parser.py。
+ *
+ * 约定：
+ *   - 以大写字母开头的名字（NUMBER、IDENT、EOF）是词法分析器产出的终结符。
+ *   - 双引号包裹的是源码中按字面出现的终结符。
+ *   - 本文件只描述语法结构；关键字表、标识符规则、注释规则见 tokens.py 和 lexer.py。
+ *   - print 不是关键字，而是解释器启动时注入全局作用域的内置函数，
+ *     因此它作为 IDENT 出现在 primary 中，可被用户变量遮蔽。
+ *)
+
+(* ---------- 程序与声明 ---------- *)
+
+program     → declaration* EOF
+
+declaration → funDecl
+            | varDecl
+            | statement
+
+funDecl     → "fun" IDENT "(" params? ")" block
+varDecl     → "let" IDENT ("=" expression)? ";"
+
+params      → IDENT ("," IDENT)*
+
+(* ---------- 语句 ---------- *)
+
+statement   → exprStmt
+            | ifStmt
+            | whileStmt
+            | returnStmt
+            | block
+
+exprStmt    → expression ";"
+ifStmt      → "if" "(" expression ")" statement ("else" statement)?
+whileStmt   → "while" "(" expression ")" statement
+returnStmt  → "return" expression? ";"
+block       → "{" declaration* "}"
+
+(* ---------- 表达式 ---------- *)
+(* 层次从低到高：赋值 < 相等 < 比较 < 加减 < 乘除 < 一元 < 调用 < 原子 *)
+
+expression  → assignment
+
+assignment  → IDENT "=" assignment
+            | equality
+
+equality    → comparison (("==" | "!=") comparison)*
+comparison  → term (("<" | ">") term)*
+term        → factor (("+" | "-") factor)*
+factor      → unary (("*" | "/") unary)*
+unary       → ("!" | "-") unary
+            | call
+call        → primary ("(" arguments? ")")*
+arguments   → expression ("," expression)*
+
+primary     → NUMBER
+            | "true"
+            | "false"
+            | IDENT
+            | "(" expression ")"
