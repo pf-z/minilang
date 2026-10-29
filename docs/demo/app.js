@@ -13,7 +13,10 @@
   const $source = document.getElementById("source");
   const $tokens = document.getElementById("tokens");
   const $ast = document.getElementById("ast");
-  const $state = document.getElementById("state");
+  const $sourceInfo = document.getElementById("source-info");
+  const $tokenInfo = document.getElementById("token-info");
+  const $nodeInfo = document.getElementById("node-info");
+  const $envState = document.getElementById("env-state");
   const $output = document.getElementById("output");
   const $stepLabel = document.getElementById("step-label");
   const $prev = document.getElementById("prev");
@@ -46,6 +49,9 @@
     renderSource();
     renderTokens();
     renderAst();
+    renderSourceInfo(null);
+    renderTokenInfo(null);
+    renderNodeInfo(null);
     goToStep(0, false);
     bindControls();
   }
@@ -110,13 +116,14 @@
       const end = Math.max(anchorTokenId, tokenId);
       selection = { kind: "range", tokenStart: start, tokenEnd: end };
       applyHighlights();
-      renderSelectionState();
+      renderSourceInfoForRange(start, end);
+      renderTokenInfoForRange(start, end);
+      renderNodeInfoForRange(start, end);
       return;
     }
 
     anchorTokenId = tokenId;
     const owners = findOwners(tokenId);
-    // 祖先链取第一个 owner 的祖先；如果有多个 owner，合并所有祖先
     const ancestorSet = new Set();
     owners.forEach((n) => {
       findAncestors(n.id).forEach((id) => ancestorSet.add(id));
@@ -129,7 +136,9 @@
       ancestors: [...ancestorSet],
     };
     applyHighlights();
-    renderSelectionState();
+    renderSourceInfo(tokenId);
+    renderTokenInfo(tokenId);
+    renderNodeInfoForToken(owners);
   }
 
   function selectNode(nodeId) {
@@ -144,14 +153,18 @@
     };
     anchorTokenId = null;
     applyHighlights();
-    renderSelectionState();
+    renderSourceInfoForRange(node.tokenStart, node.tokenEnd);
+    renderTokenInfoForRange(node.tokenStart, node.tokenEnd);
+    renderNodeInfo(nodeId);
   }
 
   function clearSelection() {
     selection = null;
     anchorTokenId = null;
     applyHighlights();
-    renderState(null);
+    renderSourceInfo(null);
+    renderTokenInfo(null);
+    renderNodeInfo(null);
   }
 
   // ---------- 高亮 ----------
@@ -260,63 +273,301 @@
     return path;
   }
 
-  // ---------- 状态面板 ----------
+  // ---------- 通用渲染 ----------
 
-  function renderState(ev) {
-    if (!ev) {
-      $state.innerHTML =
-        `<div class="env-empty">点击源码、Token 或 AST 节点查看详情</div>`;
+  function renderInfoGrid(rows) {
+    if (!rows.length) return `<div class="info-empty">（无）</div>`;
+    return `<div class="info-grid">` +
+           rows.map(([k, v]) =>
+             `<span class="info-key">${escapeHtml(k)}</span>` +
+             `<span class="info-value">${escapeHtml(v)}</span>`
+           ).join("") +
+           `</div>`;
+  }
+
+  function renderNodeBlock(node) {
+    const rows = [["type", node.type]];
+    (node.fields || []).forEach(([k, v]) => rows.push([k, v]));
+    return renderInfoGrid(rows);
+  }
+
+  // ---------- 源码信息 ----------
+
+  function tokenLine(t) {
+    return t.line;
+  }
+
+  function renderSourceInfo(tokenId) {
+    if (tokenId === null) {
+      $sourceInfo.innerHTML = `<div class="info-empty">未选中源码位置</div>`;
       return;
     }
-    let html = `<span class="state-action ${ev.action}">` +
-               `${escapeHtml(ev.action)} / ${escapeHtml(ev.phase)}</span>`;
-    if (ev.extra) {
-      html += `<div class="env-scope"><div class="env-scope-label">选中对象</div>` +
-              `<div class="env-row"><span class="env-value">${escapeHtml(ev.extra)}</span></div>` +
+    const t = DATA.tokens.find((x) => x.id === tokenId);
+    if (!t) {
+      $sourceInfo.innerHTML = `<div class="info-empty">未找到</div>`;
+      return;
+    }
+    const lines = DATA.source.split("\n");
+    const lineText = lines[t.line - 1] || "";
+    const col = t.start - (DATA.source.lastIndexOf("\n", t.start - 1) + 1) + 1;
+    const rows = [
+      ["行号", String(t.line)],
+      ["列号", String(col)],
+      ["字符范围", `${t.start} .. ${t.end}`],
+      ["当前行", lineText],
+    ];
+    $sourceInfo.innerHTML = renderInfoGrid(rows);
+  }
+
+  function renderSourceInfoForRange(start, end) {
+    if (start < 0 || end < start) {
+      $sourceInfo.innerHTML = `<div class="info-empty">无对应源码位置</div>`;
+      return;
+    }
+    const t1 = DATA.tokens.find((x) => x.id === start);
+    const t2 = DATA.tokens.find((x) => x.id === end);
+    if (!t1 || !t2) {
+      $sourceInfo.innerHTML = `<div class="info-empty">未找到</div>`;
+      return;
+    }
+    const rows = [
+      ["起始行", String(t1.line)],
+      ["结束行", String(t2.line)],
+      ["字符范围", `${t1.start} .. ${t2.end}`],
+      ["Token 范围", `${start} .. ${end}`],
+    ];
+    $sourceInfo.innerHTML = renderInfoGrid(rows);
+  }
+
+  // ---------- Token 信息 ----------
+
+  function renderTokenInfo(tokenId) {
+    if (tokenId === null) {
+      $tokenInfo.innerHTML = `<div class="info-empty">未选中 Token</div>`;
+      return;
+    }
+    const t = DATA.tokens.find((x) => x.id === tokenId);
+    if (!t) {
+      $tokenInfo.innerHTML = `<div class="info-empty">未找到</div>`;
+      return;
+    }
+    const rows = [
+      ["type", t.type],
+      ["lexeme", JSON.stringify(t.lexeme)],
+      ["literal", t.literal === null || t.literal === undefined ? "nil" : String(t.literal)],
+      ["line", String(t.line)],
+    ];
+    $tokenInfo.innerHTML = renderInfoGrid(rows);
+  }
+
+  function renderTokenInfoForRange(start, end) {
+    if (start < 0 || end < start) {
+      $tokenInfo.innerHTML = `<div class="info-empty">无对应 Token</div>`;
+      return;
+    }
+    if (start === end) {
+      renderTokenInfo(start);
+      return;
+    }
+
+    // 按 owner 分组：每个 Token 找它最深层拥有它的节点
+    const groups = new Map();
+    const orphan = [];
+
+    for (let id = start; id <= end; id++) {
+      const t = DATA.tokens.find((x) => x.id === id);
+      if (!t || t.type === "EOF") continue;
+      const owners = findOwners(id);
+      if (!owners.length) {
+        orphan.push(t);
+        continue;
+      }
+      const deepest = owners.reduce((a, b) => {
+        if (a.tokenStart > b.tokenStart) return a;
+        if (a.tokenStart < b.tokenStart) return b;
+        return a.tokenEnd < b.tokenEnd ? a : b;
+      });
+      if (!groups.has(deepest.id)) {
+        groups.set(deepest.id, { node: deepest, tokens: [] });
+      }
+      groups.get(deepest.id).tokens.push(t);
+    }
+
+    let html = `<div class="info-grid">` +
+               `<span class="info-key">范围</span>` +
+               `<span class="info-value">Token ${start} .. ${end}</span>` +
+               `</div>`;
+
+    for (const { node, tokens } of groups.values()) {
+      html += `<div class="info-sub">` +
+              `<div class="info-sub-title">${escapeHtml(node.label)}</div>` +
+              `<div class="info-grid">` +
+              tokens.map((t) =>
+                `<span class="info-key">${escapeHtml(t.type)}</span>` +
+                `<span class="info-value">${escapeHtml(t.lexeme || "")}</span>`
+              ).join("") +
+              `</div></div>`;
+    }
+
+    if (orphan.length) {
+      html += `<div class="info-sub">` +
+              `<div class="info-sub-title">（不属于任何节点）</div>` +
+              `<div class="info-grid">` +
+              orphan.map((t) =>
+                `<span class="info-key">${escapeHtml(t.type)}</span>` +
+                `<span class="info-value">${escapeHtml(t.lexeme || "")}</span>`
+              ).join("") +
+              `</div></div>`;
+    }
+
+    $tokenInfo.innerHTML = html;
+  }
+
+  // ---------- AST 节点信息 ----------
+
+  function renderNodeInfo(nodeId) {
+    if (nodeId === null) {
+      $nodeInfo.innerHTML = `<div class="info-empty">未选中 AST 节点</div>`;
+      return;
+    }
+    const node = findNodeById(DATA.ast, nodeId);
+    if (!node) {
+      $nodeInfo.innerHTML = `<div class="info-empty">未找到</div>`;
+      return;
+    }
+    $nodeInfo.innerHTML = renderNodeBlock(node);
+  }
+
+  function renderNodeInfoForToken(owners) {
+    if (!owners.length) {
+      $nodeInfo.innerHTML = `<div class="info-empty">该 Token 不属于任何 AST 节点</div>`;
+      return;
+    }
+    if (owners.length === 1) {
+      $nodeInfo.innerHTML = renderNodeBlock(owners[0]);
+      return;
+    }
+    let html = "";
+    owners.forEach((n) => {
+      html += `<div class="info-sub">` +
+              `<div class="info-sub-title">${escapeHtml(n.label)}</div>` +
+              renderNodeBlock(n) +
+              `</div>`;
+    });
+    $nodeInfo.innerHTML = html;
+  }
+
+  function renderTokenInfoForRange(start, end) {
+    if (start < 0 || end < start) {
+      $tokenInfo.innerHTML = `<div class="info-empty">无对应 Token</div>`;
+      return;
+    }
+    if (start === end) {
+      renderTokenInfo(start);
+      return;
+    }
+
+    // 收集所有节点，用于判断每个 Token 属于哪个最深层节点
+    const allNodes = [];
+    function collect(nodes) {
+      for (const n of nodes) {
+        if (n.tokenStart >= 0) allNodes.push(n);
+        if (n.children) collect(n.children);
+      }
+    }
+    collect(DATA.ast);
+
+    const groups = new Map();
+    const orphan = [];
+
+    for (let id = start; id <= end; id++) {
+      const t = DATA.tokens.find((x) => x.id === id);
+      if (!t || t.type === "EOF") continue;
+
+      const covering = allNodes.filter(
+        (n) => id >= n.tokenStart && id <= n.tokenEnd
+      );
+      if (!covering.length) {
+        orphan.push(t);
+        continue;
+      }
+      const deepest = covering.reduce((a, b) => {
+        if (a.tokenStart > b.tokenStart) return a;
+        if (a.tokenStart < b.tokenStart) return b;
+        return a.tokenEnd < b.tokenEnd ? a : b;
+      });
+      if (!groups.has(deepest.id)) {
+        groups.set(deepest.id, { node: deepest, tokens: [] });
+      }
+      groups.get(deepest.id).tokens.push(t);
+    }
+
+    let html = `<div class="info-grid">` +
+               `<span class="info-key">范围</span>` +
+               `<span class="info-value">Token ${start} .. ${end}</span>` +
+               `</div>`;
+
+    function renderTokenRows(tokens) {
+      let s = "";
+      tokens.forEach((t) => {
+        s += `<div class="info-sub">` +
+             `<div class="info-grid">` +
+             `<span class="info-key">type</span><span class="info-value">${escapeHtml(t.type)}</span>` +
+             `<span class="info-key">lexeme</span><span class="info-value">${escapeHtml(JSON.stringify(t.lexeme))}</span>` +
+             `<span class="info-key">literal</span><span class="info-value">${t.literal === null || t.literal === undefined ? "nil" : escapeHtml(String(t.literal))}</span>` +
+             `<span class="info-key">line</span><span class="info-value">${t.line}</span>` +
+             `</div></div>`;
+      });
+      return s;
+    }
+
+    for (const { node, tokens } of groups.values()) {
+      html += `<div class="info-sub">` +
+              `<div class="info-sub-title">${escapeHtml(node.label)}</div>` +
+              renderTokenRows(tokens) +
               `</div>`;
     }
+
+    if (orphan.length) {
+      html += `<div class="info-sub">` +
+              `<div class="info-sub-title">（不属于任何节点）</div>` +
+              renderTokenRows(orphan) +
+              `</div>`;
+    }
+
+    $tokenInfo.innerHTML = html;
+  }
+
+  // ---------- 执行环境 ----------
+
+  function renderEnv(ev) {
+    if (!ev) {
+      $envState.innerHTML = `<div class="info-empty">无执行事件</div>`;
+      return;
+    }
+    let html = `<div class="info-grid">` +
+               `<span class="info-key">action</span>` +
+               `<span class="info-value">${escapeHtml(ev.action)}</span>` +
+               `<span class="info-key">phase</span>` +
+               `<span class="info-value">${escapeHtml(ev.phase)}</span>` +
+               `</div>`;
     if (ev.env && ev.env.length) {
       ev.env.forEach((scope) => {
         const entries = Object.entries(scope.values);
         if (!entries.length) return;
-        html += `<div class="env-scope">` +
-                `<div class="env-scope-label">作用域深度 ${scope.depth}</div>` +
-                entries.map(([k, v]) =>
-                  `<div class="env-row"><span class="env-name">${escapeHtml(k)}</span>` +
-                  `<span class="env-value">= ${escapeHtml(v)}</span></div>`
-                ).join("") +
-                `</div>`;
-      });
-    }
-    $state.innerHTML = html;
-  }
-
-  function renderSelectionState() {
-    if (!selection) return;
-    if (selection.kind === "node") {
-      const node = findNodeById(DATA.ast, selection.nodeId);
-      renderState({
-        action: "select",
-        phase: "node",
-        env: [],
-        extra: node ? node.label : "",
-      });
-    } else if (selection.kind === "range") {
-      renderState({
-        action: "select",
-        phase: "range",
-        env: [],
-        extra: `Token ${selection.tokenStart} .. ${selection.tokenEnd}`,
+        html += `<div class="info-grid info-sub">` +
+                `<span class="info-key">depth</span>` +
+                `<span class="info-value">${scope.depth}</span>`;
+        entries.forEach(([k, v]) => {
+          html += `<span class="info-key">${escapeHtml(k)}</span>` +
+                  `<span class="info-value">${escapeHtml(v)}</span>`;
+        });
+        html += `</div>`;
       });
     } else {
-      const t = DATA.tokens.find((x) => x.id === selection.tokenStart);
-      renderState({
-        action: "select",
-        phase: "token",
-        env: [],
-        extra: t ? `${t.type}  ${JSON.stringify(t.lexeme)}  line ${t.line}` : "",
-      });
+      html += `<div class="info-empty info-sub">无环境变量</div>`;
     }
+    $envState.innerHTML = html;
   }
 
   // ---------- 输出 ----------
@@ -353,29 +604,19 @@
         ancestors: findAncestors(ev.nodeId),
       };
       anchorTokenId = null;
-    }
-    applyHighlights();
-
-    let html = `<span class="state-action ${ev.action}">` +
-               `${escapeHtml(ev.action)} / ${escapeHtml(ev.phase)}</span>`;
-    if (ev.env && ev.env.length) {
-      ev.env.forEach((scope) => {
-        const entries = Object.entries(scope.values);
-        if (!entries.length) return;
-        html += `<div class="env-scope">` +
-                `<div class="env-scope-label">作用域深度 ${scope.depth}</div>` +
-                entries.map(([k, v]) =>
-                  `<div class="env-row"><span class="env-name">${escapeHtml(k)}</span>` +
-                  `<span class="env-value">= ${escapeHtml(v)}</span></div>`
-                ).join("") +
-                `</div>`;
-      });
+      applyHighlights();
+      const s = node ? node.tokenStart : -1;
+      const e = node ? node.tokenEnd : -1;
+      renderSourceInfoForRange(s, e);
+      renderTokenInfoForRange(s, e);
+      renderNodeInfo(ev.nodeId);
     } else {
-      html += `<div class="env-empty">（无环境信息）</div>`;
+      applyHighlights();
     }
-    $state.innerHTML = html;
 
+    renderEnv(ev);
     renderOutput();
+
     $stepLabel.textContent = `${step + 1} / ${DATA.execution.length}`;
     $prev.disabled = step === 0;
     $next.disabled = step === DATA.execution.length - 1;

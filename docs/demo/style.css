@@ -124,15 +124,25 @@ body {
   text-align: right;
 }
 
-/* 四栏布局 */
+/* 2 行 4 列布局 */
 .viewer {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr 1.15fr 1fr;
+  grid-template-rows: 1fr auto;
   gap: 12px;
   padding: 12px 16px;
   flex: 1;
   min-height: 0;
 }
+#panel-source    { grid-column: 1; grid-row: 1; }
+#panel-tokens    { grid-column: 2; grid-row: 1; }
+#panel-ast       { grid-column: 3; grid-row: 1; }
+#panel-env       { grid-column: 4; grid-row: 1; }
+#panel-source-info { grid-column: 1; grid-row: 2; }
+#panel-token-info  { grid-column: 2; grid-row: 2; }
+#panel-node-info   { grid-column: 3; grid-row: 2; }
+#panel-output      { grid-column: 4; grid-row: 2; }
+
 .panel {
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
@@ -144,7 +154,7 @@ body {
 }
 .panel h2 {
   margin: 0;
-  padding: 10px 14px;
+  padding: 8px 14px;
   font-size: 12px;
   font-weight: 600;
   color: var(--text-dim);
@@ -154,18 +164,10 @@ body {
   border-bottom: 1px solid var(--panel-border);
   flex-shrink: 0;
 }
-.panel h3 {
-  margin: 0;
-  padding: 10px 14px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background: var(--panel-header);
-  border-top: 1px solid var(--panel-border);
-  border-bottom: 1px solid var(--panel-border);
-  flex-shrink: 0;
+
+.panel-info {
+  min-height: 140px;
+  max-height: 32vh;
 }
 
 /* 源码 */
@@ -175,7 +177,7 @@ body {
   line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-all;
-  padding: 12px 14px;
+  padding: 10px 14px;
   overflow: auto;
   flex: 1;
   min-height: 0;
@@ -199,7 +201,7 @@ body {
   flex-wrap: wrap;
   gap: 4px;
   align-content: flex-start;
-  padding: 12px 14px;
+  padding: 10px 14px;
   overflow: auto;
   flex: 1;
   min-height: 0;
@@ -229,7 +231,7 @@ body {
   font-family: var(--mono);
   font-size: 13px;
   line-height: 1.9;
-  padding: 12px 14px;
+  padding: 10px 14px;
   overflow: auto;
   flex: 1;
   min-height: 0;
@@ -259,51 +261,43 @@ body {
   padding-left: 10px;
 }
 
-/* 执行状态 */
-.state {
+/* 信息面板 */
+.info-content {
   font-family: var(--mono);
   font-size: 13px;
-  padding: 12px 14px;
+  padding: 10px 14px;
   overflow: auto;
-  flex: 1;
   min-height: 0;
+  flex: 1;
 }
-.state-action {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  margin-bottom: 10px;
-  font-weight: 600;
+.info-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 3px 14px;
 }
-.state-action.execute { background: var(--accent-bg); color: var(--accent); }
-.state-action.evaluate { background: var(--green-bg); color: var(--green); }
-.state-action.print { background: var(--yellow-bg); color: var(--yellow); }
-.state-action.error { background: var(--red-bg); color: var(--red); }
-.state-action.select { background: var(--panel-header); color: var(--text-dim); }
-.env-scope {
-  margin-top: 8px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  background: var(--panel-header);
-  border: 1px solid var(--panel-border);
+.info-key {
+  color: var(--accent);
+  font-weight: 500;
+  white-space: nowrap;
 }
-.env-scope-label {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-bottom: 4px;
-  font-weight: 600;
+.info-value {
+  color: var(--text);
+  word-break: break-all;
+  white-space: pre-wrap;
 }
-.env-row {
-  display: flex;
-  gap: 8px;
-  padding: 1px 0;
-}
-.env-name { color: var(--accent); }
-.env-value { color: var(--text-dim); }
-.env-empty {
+.info-empty {
   color: var(--text-dim);
   font-style: italic;
+}
+.info-sub {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--panel-border);
+}
+.info-sub-title {
+  color: var(--text);
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
 /* 输出 */
@@ -311,7 +305,7 @@ body {
   margin: 0;
   font-family: var(--mono);
   font-size: 13px;
-  padding: 12px 14px;
+  padding: 10px 14px;
   min-height: 80px;
   flex: 1;
   overflow: auto;

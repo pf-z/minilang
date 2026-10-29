@@ -15,11 +15,12 @@ JSON 契约：
 {
   "name": str,
   "source": str,
-  "tokens": [{"id": int, "type": str, "lexeme": str, "line": int,
-              "start": int, "end": int}],
+  "tokens": [{"id": int, "type": str, "lexeme": str, "literal": any,
+              "line": int, "start": int, "end": int}],
   "ast": [{"id": int, "type": str, "label": str,
            "tokenStart": int, "tokenEnd": int,
            "ownTokens": [int], "allTokens": [int],
+           "fields": [[str, str], ...],
            "children": [...]}],
   "execution": [{"step": int, "nodeId": int|null,
                  "action": "execute"|"evaluate"|"print"|"error",
@@ -31,6 +32,8 @@ JSON 契约：
 
 ownTokens：节点直接拥有、不属于任何子节点的 Token 下标。
 allTokens：节点自身和所有子节点的 Token 下标并集，等于 tokenStart..tokenEnd。
+fields：节点在语言定义里的字段名和值。值是子节点时显示子节点类型，
+        是列表时显示元素类型列表，是标量时显示 repr。
 """
 
 import dataclasses
@@ -140,6 +143,32 @@ def build_label(node):
     return " ".join(parts)
 
 
+# ---------- AST 字段 ----------
+
+def serialize_fields(node):
+    """输出节点在语言定义里的字段名和值。
+
+    值是子节点时显示子节点类型，是列表时显示元素类型列表，
+    是标量时显示 repr。这样右侧面板展示的是 ast_nodes.py 里的真实定义，
+    而不是实现细节。
+    """
+    fields = []
+    for f in dataclasses.fields(node):
+        value = getattr(node, f.name)
+        if isinstance(value, (ast.Expr, ast.Stmt)):
+            fields.append([f.name, type(value).__name__])
+        elif isinstance(value, list):
+            if not value:
+                fields.append([f.name, "[]"])
+            elif all(isinstance(x, (ast.Expr, ast.Stmt)) for x in value):
+                fields.append([f.name, "[" + ", ".join(type(x).__name__ for x in value) + "]"])
+            else:
+                fields.append([f.name, repr(value)])
+        else:
+            fields.append([f.name, repr(value)])
+    return fields
+
+
 # ---------- AST 序列化 ----------
 
 def serialize_node(node, recorder):
@@ -176,6 +205,7 @@ def serialize_node(node, recorder):
         "tokenEnd": end,
         "ownTokens": own,
         "allTokens": all_tokens,
+        "fields": serialize_fields(node),
         "children": children,
     }
 
@@ -332,6 +362,7 @@ def collect_tokens(source, tokens):
             "id": i,
             "type": t.type.name,
             "lexeme": t.lexeme,
+            "literal": t.literal,
             "line": t.line,
             "start": start,
             "end": end,

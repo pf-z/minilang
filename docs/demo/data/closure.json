@@ -5,6 +5,7 @@
       "id": 0,
       "type": "FUN",
       "lexeme": "fun",
+      "literal": null,
       "line": 1,
       "start": 0,
       "end": 3
@@ -13,6 +14,7 @@
       "id": 1,
       "type": "IDENTIFIER",
       "lexeme": "makeCounter",
+      "literal": null,
       "line": 1,
       "start": 4,
       "end": 15
@@ -21,6 +23,7 @@
       "id": 2,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 1,
       "start": 15,
       "end": 16
@@ -29,6 +32,7 @@
       "id": 3,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 1,
       "start": 16,
       "end": 17
@@ -37,6 +41,7 @@
       "id": 4,
       "type": "LEFT_BRACE",
       "lexeme": "{",
+      "literal": null,
       "line": 1,
       "start": 18,
       "end": 19
@@ -45,6 +50,7 @@
       "id": 5,
       "type": "LET",
       "lexeme": "let",
+      "literal": null,
       "line": 2,
       "start": 22,
       "end": 25
@@ -53,6 +59,7 @@
       "id": 6,
       "type": "IDENTIFIER",
       "lexeme": "count",
+      "literal": null,
       "line": 2,
       "start": 26,
       "end": 31
@@ -61,6 +68,7 @@
       "id": 7,
       "type": "EQUAL",
       "lexeme": "=",
+      "literal": null,
       "line": 2,
       "start": 32,
       "end": 33
@@ -69,6 +77,7 @@
       "id": 8,
       "type": "NUMBER",
       "lexeme": "0",
+      "literal": 0,
       "line": 2,
       "start": 34,
       "end": 35
@@ -77,6 +86,7 @@
       "id": 9,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 2,
       "start": 35,
       "end": 36
@@ -85,6 +95,7 @@
       "id": 10,
       "type": "FUN",
       "lexeme": "fun",
+      "literal": null,
       "line": 3,
       "start": 39,
       "end": 42
@@ -93,6 +104,7 @@
       "id": 11,
       "type": "IDENTIFIER",
       "lexeme": "increment",
+      "literal": null,
       "line": 3,
       "start": 43,
       "end": 52
@@ -101,6 +113,7 @@
       "id": 12,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 3,
       "start": 52,
       "end": 53
@@ -109,6 +122,7 @@
       "id": 13,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 3,
       "start": 53,
       "end": 54
@@ -117,6 +131,7 @@
       "id": 14,
       "type": "LEFT_BRACE",
       "lexeme": "{",
+      "literal": null,
       "line": 3,
       "start": 55,
       "end": 56
@@ -125,6 +140,7 @@
       "id": 15,
       "type": "IDENTIFIER",
       "lexeme": "count",
+      "literal": null,
       "line": 4,
       "start": 61,
       "end": 66
@@ -133,6 +149,7 @@
       "id": 16,
       "type": "EQUAL",
       "lexeme": "=",
+      "literal": null,
       "line": 4,
       "start": 67,
       "end": 68
@@ -141,6 +158,7 @@
       "id": 17,
       "type": "IDENTIFIER",
       "lexeme": "count",
+      "literal": null,
       "line": 4,
       "start": 69,
       "end": 74
@@ -149,6 +167,7 @@
       "id": 18,
       "type": "PLUS",
       "lexeme": "+",
+      "literal": null,
       "line": 4,
       "start": 75,
       "end": 76
@@ -157,6 +176,7 @@
       "id": 19,
       "type": "NUMBER",
       "lexeme": "1",
+      "literal": 1,
       "line": 4,
       "start": 77,
       "end": 78
@@ -165,6 +185,7 @@
       "id": 20,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 4,
       "start": 78,
       "end": 79
@@ -173,6 +194,7 @@
       "id": 21,
       "type": "RETURN",
       "lexeme": "return",
+      "literal": null,
       "line": 5,
       "start": 84,
       "end": 90
@@ -181,6 +203,7 @@
       "id": 22,
       "type": "IDENTIFIER",
       "lexeme": "count",
+      "literal": null,
       "line": 5,
       "start": 91,
       "end": 96
@@ -189,6 +212,7 @@
       "id": 23,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 5,
       "start": 96,
       "end": 97
@@ -197,6 +221,7 @@
       "id": 24,
       "type": "RIGHT_BRACE",
       "lexeme": "}",
+      "literal": null,
       "line": 6,
       "start": 100,
       "end": 101
@@ -205,6 +230,7 @@
       "id": 25,
       "type": "RETURN",
       "lexeme": "return",
+      "literal": null,
       "line": 7,
       "start": 104,
       "end": 110
@@ -213,6 +239,7 @@
       "id": 26,
       "type": "IDENTIFIER",
       "lexeme": "increment",
+      "literal": null,
       "line": 7,
       "start": 111,
       "end": 120
@@ -221,6 +248,7 @@
       "id": 27,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 7,
       "start": 120,
       "end": 121
@@ -229,6 +257,7 @@
       "id": 28,
       "type": "RIGHT_BRACE",
       "lexeme": "}",
+      "literal": null,
       "line": 8,
       "start": 122,
       "end": 123
@@ -237,6 +266,7 @@
       "id": 29,
       "type": "LET",
       "lexeme": "let",
+      "literal": null,
       "line": 10,
       "start": 125,
       "end": 128
@@ -245,6 +275,7 @@
       "id": 30,
       "type": "IDENTIFIER",
       "lexeme": "c",
+      "literal": null,
       "line": 10,
       "start": 129,
       "end": 130
@@ -253,6 +284,7 @@
       "id": 31,
       "type": "EQUAL",
       "lexeme": "=",
+      "literal": null,
       "line": 10,
       "start": 131,
       "end": 132
@@ -261,6 +293,7 @@
       "id": 32,
       "type": "IDENTIFIER",
       "lexeme": "makeCounter",
+      "literal": null,
       "line": 10,
       "start": 133,
       "end": 144
@@ -269,6 +302,7 @@
       "id": 33,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 10,
       "start": 144,
       "end": 145
@@ -277,6 +311,7 @@
       "id": 34,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 10,
       "start": 145,
       "end": 146
@@ -285,6 +320,7 @@
       "id": 35,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 10,
       "start": 146,
       "end": 147
@@ -293,6 +329,7 @@
       "id": 36,
       "type": "IDENTIFIER",
       "lexeme": "print",
+      "literal": null,
       "line": 11,
       "start": 148,
       "end": 153
@@ -301,6 +338,7 @@
       "id": 37,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 11,
       "start": 153,
       "end": 154
@@ -309,6 +347,7 @@
       "id": 38,
       "type": "IDENTIFIER",
       "lexeme": "c",
+      "literal": null,
       "line": 11,
       "start": 154,
       "end": 155
@@ -317,6 +356,7 @@
       "id": 39,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 11,
       "start": 155,
       "end": 156
@@ -325,6 +365,7 @@
       "id": 40,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 11,
       "start": 156,
       "end": 157
@@ -333,6 +374,7 @@
       "id": 41,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 11,
       "start": 157,
       "end": 158
@@ -341,6 +383,7 @@
       "id": 42,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 11,
       "start": 158,
       "end": 159
@@ -349,6 +392,7 @@
       "id": 43,
       "type": "IDENTIFIER",
       "lexeme": "print",
+      "literal": null,
       "line": 12,
       "start": 160,
       "end": 165
@@ -357,6 +401,7 @@
       "id": 44,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 12,
       "start": 165,
       "end": 166
@@ -365,6 +410,7 @@
       "id": 45,
       "type": "IDENTIFIER",
       "lexeme": "c",
+      "literal": null,
       "line": 12,
       "start": 166,
       "end": 167
@@ -373,6 +419,7 @@
       "id": 46,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 12,
       "start": 167,
       "end": 168
@@ -381,6 +428,7 @@
       "id": 47,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 12,
       "start": 168,
       "end": 169
@@ -389,6 +437,7 @@
       "id": 48,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 12,
       "start": 169,
       "end": 170
@@ -397,6 +446,7 @@
       "id": 49,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 12,
       "start": 170,
       "end": 171
@@ -405,6 +455,7 @@
       "id": 50,
       "type": "IDENTIFIER",
       "lexeme": "print",
+      "literal": null,
       "line": 13,
       "start": 172,
       "end": 177
@@ -413,6 +464,7 @@
       "id": 51,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 13,
       "start": 177,
       "end": 178
@@ -421,6 +473,7 @@
       "id": 52,
       "type": "IDENTIFIER",
       "lexeme": "c",
+      "literal": null,
       "line": 13,
       "start": 178,
       "end": 179
@@ -429,6 +482,7 @@
       "id": 53,
       "type": "LEFT_PAREN",
       "lexeme": "(",
+      "literal": null,
       "line": 13,
       "start": 179,
       "end": 180
@@ -437,6 +491,7 @@
       "id": 54,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 13,
       "start": 180,
       "end": 181
@@ -445,6 +500,7 @@
       "id": 55,
       "type": "RIGHT_PAREN",
       "lexeme": ")",
+      "literal": null,
       "line": 13,
       "start": 181,
       "end": 182
@@ -453,6 +509,7 @@
       "id": 56,
       "type": "SEMICOLON",
       "lexeme": ";",
+      "literal": null,
       "line": 13,
       "start": 182,
       "end": 183
@@ -461,6 +518,7 @@
       "id": 57,
       "type": "EOF",
       "lexeme": "",
+      "literal": null,
       "line": 13,
       "start": 183,
       "end": 183
@@ -510,6 +568,20 @@
         27,
         28
       ],
+      "fields": [
+        [
+          "name",
+          "'makeCounter'"
+        ],
+        [
+          "params",
+          "[]"
+        ],
+        [
+          "body",
+          "Block"
+        ]
+      ],
       "children": [
         {
           "id": 14,
@@ -548,6 +620,12 @@
             27,
             28
           ],
+          "fields": [
+            [
+              "statements",
+              "[VarDecl, FunctionDecl, ReturnStmt]"
+            ]
+          ],
           "children": [
             {
               "id": 2,
@@ -568,6 +646,16 @@
                 8,
                 9
               ],
+              "fields": [
+                [
+                  "name",
+                  "'count'"
+                ],
+                [
+                  "initializer",
+                  "Literal"
+                ]
+              ],
               "children": [
                 {
                   "id": 1,
@@ -580,6 +668,12 @@
                   ],
                   "allTokens": [
                     8
+                  ],
+                  "fields": [
+                    [
+                      "value",
+                      "0"
+                    ]
                   ],
                   "children": []
                 }
@@ -614,6 +708,20 @@
                 23,
                 24
               ],
+              "fields": [
+                [
+                  "name",
+                  "'increment'"
+                ],
+                [
+                  "params",
+                  "[]"
+                ],
+                [
+                  "body",
+                  "Block"
+                ]
+              ],
               "children": [
                 {
                   "id": 10,
@@ -639,6 +747,12 @@
                     23,
                     24
                   ],
+                  "fields": [
+                    [
+                      "statements",
+                      "[ExprStmt, ReturnStmt]"
+                    ]
+                  ],
                   "children": [
                     {
                       "id": 7,
@@ -653,6 +767,12 @@
                         17,
                         18,
                         19
+                      ],
+                      "fields": [
+                        [
+                          "expression",
+                          "Assign"
+                        ]
                       ],
                       "children": [
                         {
@@ -672,6 +792,16 @@
                             18,
                             19
                           ],
+                          "fields": [
+                            [
+                              "name",
+                              "'count'"
+                            ],
+                            [
+                              "value",
+                              "Binary"
+                            ]
+                          ],
                           "children": [
                             {
                               "id": 5,
@@ -687,6 +817,20 @@
                                 18,
                                 19
                               ],
+                              "fields": [
+                                [
+                                  "left",
+                                  "Var"
+                                ],
+                                [
+                                  "op",
+                                  "'+'"
+                                ],
+                                [
+                                  "right",
+                                  "Literal"
+                                ]
+                              ],
                               "children": [
                                 {
                                   "id": 3,
@@ -699,6 +843,12 @@
                                   ],
                                   "allTokens": [
                                     17
+                                  ],
+                                  "fields": [
+                                    [
+                                      "name",
+                                      "'count'"
+                                    ]
                                   ],
                                   "children": []
                                 },
@@ -713,6 +863,12 @@
                                   ],
                                   "allTokens": [
                                     19
+                                  ],
+                                  "fields": [
+                                    [
+                                      "value",
+                                      "1"
+                                    ]
                                   ],
                                   "children": []
                                 }
@@ -737,6 +893,12 @@
                         22,
                         23
                       ],
+                      "fields": [
+                        [
+                          "value",
+                          "Var"
+                        ]
+                      ],
                       "children": [
                         {
                           "id": 8,
@@ -749,6 +911,12 @@
                           ],
                           "allTokens": [
                             22
+                          ],
+                          "fields": [
+                            [
+                              "name",
+                              "'count'"
+                            ]
                           ],
                           "children": []
                         }
@@ -773,6 +941,12 @@
                 26,
                 27
               ],
+              "fields": [
+                [
+                  "value",
+                  "Var"
+                ]
+              ],
               "children": [
                 {
                   "id": 12,
@@ -785,6 +959,12 @@
                   ],
                   "allTokens": [
                     26
+                  ],
+                  "fields": [
+                    [
+                      "name",
+                      "'increment'"
+                    ]
                   ],
                   "children": []
                 }
@@ -815,6 +995,16 @@
         34,
         35
       ],
+      "fields": [
+        [
+          "name",
+          "'c'"
+        ],
+        [
+          "initializer",
+          "Call"
+        ]
+      ],
       "children": [
         {
           "id": 17,
@@ -831,6 +1021,16 @@
             33,
             34
           ],
+          "fields": [
+            [
+              "callee",
+              "Var"
+            ],
+            [
+              "arguments",
+              "[]"
+            ]
+          ],
           "children": [
             {
               "id": 16,
@@ -843,6 +1043,12 @@
               ],
               "allTokens": [
                 32
+              ],
+              "fields": [
+                [
+                  "name",
+                  "'makeCounter'"
+                ]
               ],
               "children": []
             }
@@ -868,6 +1074,12 @@
         41,
         42
       ],
+      "fields": [
+        [
+          "expression",
+          "Call"
+        ]
+      ],
       "children": [
         {
           "id": 22,
@@ -887,6 +1099,16 @@
             40,
             41
           ],
+          "fields": [
+            [
+              "callee",
+              "Var"
+            ],
+            [
+              "arguments",
+              "[Call]"
+            ]
+          ],
           "children": [
             {
               "id": 19,
@@ -899,6 +1121,12 @@
               ],
               "allTokens": [
                 36
+              ],
+              "fields": [
+                [
+                  "name",
+                  "'print'"
+                ]
               ],
               "children": []
             },
@@ -917,6 +1145,16 @@
                 39,
                 40
               ],
+              "fields": [
+                [
+                  "callee",
+                  "Var"
+                ],
+                [
+                  "arguments",
+                  "[]"
+                ]
+              ],
               "children": [
                 {
                   "id": 20,
@@ -929,6 +1167,12 @@
                   ],
                   "allTokens": [
                     38
+                  ],
+                  "fields": [
+                    [
+                      "name",
+                      "'c'"
+                    ]
                   ],
                   "children": []
                 }
@@ -956,6 +1200,12 @@
         48,
         49
       ],
+      "fields": [
+        [
+          "expression",
+          "Call"
+        ]
+      ],
       "children": [
         {
           "id": 27,
@@ -975,6 +1225,16 @@
             47,
             48
           ],
+          "fields": [
+            [
+              "callee",
+              "Var"
+            ],
+            [
+              "arguments",
+              "[Call]"
+            ]
+          ],
           "children": [
             {
               "id": 24,
@@ -987,6 +1247,12 @@
               ],
               "allTokens": [
                 43
+              ],
+              "fields": [
+                [
+                  "name",
+                  "'print'"
+                ]
               ],
               "children": []
             },
@@ -1005,6 +1271,16 @@
                 46,
                 47
               ],
+              "fields": [
+                [
+                  "callee",
+                  "Var"
+                ],
+                [
+                  "arguments",
+                  "[]"
+                ]
+              ],
               "children": [
                 {
                   "id": 25,
@@ -1017,6 +1293,12 @@
                   ],
                   "allTokens": [
                     45
+                  ],
+                  "fields": [
+                    [
+                      "name",
+                      "'c'"
+                    ]
                   ],
                   "children": []
                 }
@@ -1044,6 +1326,12 @@
         55,
         56
       ],
+      "fields": [
+        [
+          "expression",
+          "Call"
+        ]
+      ],
       "children": [
         {
           "id": 32,
@@ -1063,6 +1351,16 @@
             54,
             55
           ],
+          "fields": [
+            [
+              "callee",
+              "Var"
+            ],
+            [
+              "arguments",
+              "[Call]"
+            ]
+          ],
           "children": [
             {
               "id": 29,
@@ -1075,6 +1373,12 @@
               ],
               "allTokens": [
                 50
+              ],
+              "fields": [
+                [
+                  "name",
+                  "'print'"
+                ]
               ],
               "children": []
             },
@@ -1093,6 +1397,16 @@
                 53,
                 54
               ],
+              "fields": [
+                [
+                  "callee",
+                  "Var"
+                ],
+                [
+                  "arguments",
+                  "[]"
+                ]
+              ],
               "children": [
                 {
                   "id": 30,
@@ -1105,6 +1419,12 @@
                   ],
                   "allTokens": [
                     52
+                  ],
+                  "fields": [
+                    [
+                      "name",
+                      "'c'"
+                    ]
                   ],
                   "children": []
                 }
