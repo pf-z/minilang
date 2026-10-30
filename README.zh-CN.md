@@ -7,7 +7,7 @@
 
 # minilang
 
-一个极小语言实现，包含词法分析、递归下降语法分析、AST 打印、树遍历解释器、REPL 和测试。零第三方依赖，Python 3.7+ 即可运行。
+一个极小语言实现，设计思想来源于 Lox。包含词法分析、递归下降语法分析、AST 打印、树遍历解释器、REPL 和测试。零第三方依赖，Python 3.7+ 即可运行。
 
 ## 语言特性
 
@@ -46,15 +46,25 @@ python -m unittest discover -s tests -v
 ```
 minilang/
 ├── README.md
+├── README.zh-CN.md
+├── LICENSE
 ├── docs/
-│   └── grammar.ebnf          # 权威文法规格
-├── main.py                   # 入口，调用 mini_lang.main
+│   ├── grammar.ebnf          # 权威文法规格
+│   └── demo/                 # GitHub Pages 可视化站点
+│       ├── index.html        # 示例列表
+│       ├── viewer.html       # 查看器
+│       ├── app.js            # 全部前端逻辑
+│       ├── style.css
+│       └── data/             # 生成脚本产出，随仓库提交
+│           ├── fib.json
+│           └── closure.json
+├── main.py                   # 入口，调用 minilang.main
 ├── examples/
 │   ├── fib.mini              # 递归与 while 示例
 │   └── closure.mini          # 闭包示例
 ├── minilang/
 │   ├── __init__.py
-│   ├── __main__.py           # 支持 python -m mini_lang
+│   ├── __main__.py           # 支持 python -m minilang
 │   ├── tokens.py             # Token 类型与关键字表
 │   ├── lexer.py              # 词法分析器
 │   ├── ast_nodes.py          # AST 节点（dataclass）
@@ -63,6 +73,8 @@ minilang/
 │   ├── environment.py        # 链式作用域环境
 │   ├── interpreter.py        # 树遍历解释器
 │   └── main.py               # 命令行入口与 REPL
+├── tools/
+│   └── build_demo.py         # 生成 docs/demo/data/*.json
 └── tests/
     ├── test_mini.py          # 词法 / 解释器功能测试
     └── test_grammar.py       # 逐条文法规则的合法 / 非法用例
