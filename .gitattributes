@@ -1,0 +1,5 @@
+# 让 docs/ 下的文件正常参与语言统计
+docs/** linguist-documentation=false
+
+# 生成数据标记为 generated，不参与统计
+docs/demo/data/*.json linguist-generated=true
